@@ -24,12 +24,20 @@ export const Header = () => {
             </a>
           ))}
         </nav>
-        <a
-          className="uppercase max-lg:hidden transition-colors ease-out duration-150 font-mono text-primary hover:text-primary/80"
-          href="/active"
-        >
-          Активные комнаты
-        </a>
+        <div className="flex items-center gap-4 max-lg:hidden">
+          <a
+            className="uppercase transition-colors ease-out duration-150 font-mono text-foreground/60 hover:text-foreground/100"
+            href="/active"
+          >
+            Активные комнаты
+          </a>
+          <a
+            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-mono text-sm uppercase font-bold shadow-lg transition-all duration-150 flex items-center gap-2"
+            href="/premium"
+          >
+            <span className="text-yellow-300">👑</span> Premium
+          </a>
+        </div>
         <MobileMenu />
       </header>
     </div>

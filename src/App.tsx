@@ -10,6 +10,7 @@ import ActiveRooms from "./pages/ActiveRooms";
 import HowItWorks from "./pages/HowItWorks";
 import Conference from "./pages/Conference";
 import VideoQuality from "./pages/VideoQuality";
+import PremiumFeatures from "./pages/PremiumFeatures";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/active" element={<ActiveRooms />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/video-quality" element={<VideoQuality />} />
+          <Route path="/premium" element={<PremiumFeatures />} />
           <Route path="/conference/:roomId" element={<Conference />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
