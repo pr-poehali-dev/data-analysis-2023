@@ -61,8 +61,14 @@ export function VideoConferenceRoom({
           enableWelcomePage: false,
           prejoinPageEnabled: false,
           disableDeepLinking: true,
-          // Настройка дизайна под выбранную тему
           defaultLanguage: "ru",
+          // Домашняя уютная атмосфера
+          subject: "Уютная встреча",
+          hideConferenceSubject: false,
+          enableNoAudioDetection: true,
+          enableNoisyMicDetection: true,
+          // Виртуальный фон по умолчанию
+          backgroundAlpha: 0.5,
         },
         interfaceConfigOverwrite: {
           BRAND_WATERMARK_LINK: "",
@@ -131,21 +137,40 @@ export function VideoConferenceRoom({
   }, [roomName, displayName, design, onClose]);
 
   const getBackgroundColor = (design: string) => {
+    // Тёплые уютные цвета для домашней атмосферы
     switch (design) {
       case "minimal":
-        return "#f5f5f5";
+        return "#fef3c7"; // тёплый кремовый
       case "corporate":
-        return "#1e3a8a";
+        return "#fed7aa"; // мягкий персиковый
       case "creative":
-        return "#7c3aed";
+        return "#fde68a"; // солнечный жёлтый
       default:
-        return "#000000";
+        return "#fef3c7";
     }
   };
 
   return (
-    <div className="w-full h-full min-h-[600px] bg-black rounded-lg overflow-hidden">
-      <div ref={containerRef} className="w-full h-full" />
+    <div className="w-full h-full min-h-[600px] relative rounded-lg overflow-hidden">
+      {/* Уютный домашний фон */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50" />
+      
+      {/* Мягкий текстурный оверлей */}
+      <div 
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}
+      />
+      
+      {/* Декоративные элементы для уюта */}
+      <div className="absolute top-4 left-4 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm z-10">
+        <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+        <span className="font-mono text-xs text-amber-900">Уютная комната</span>
+      </div>
+      
+      {/* Jitsi контейнер */}
+      <div ref={containerRef} className="w-full h-full relative z-0" />
     </div>
   );
 }

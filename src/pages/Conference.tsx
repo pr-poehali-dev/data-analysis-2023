@@ -60,86 +60,103 @@ export default function Conference() {
 
   if (!joined) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <div className="max-w-md w-full bg-secondary/30 border border-border rounded-lg p-8">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-4">
+        {/* Уютный декоративный фон */}
+        <div 
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        />
+        
+        <div className="max-w-md w-full bg-white/80 backdrop-blur-sm border border-amber-200 rounded-2xl p-8 shadow-xl relative z-10">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Icon name="Video" className="text-primary" size={32} />
+            <div className="w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <Icon name="Home" className="text-amber-600" size={36} />
             </div>
-            <h1 className="text-2xl font-sentient mb-2">
-              Присоединиться к конференции
+            <h1 className="text-2xl font-sentient mb-2 text-amber-900">
+              Добро пожаловать домой
             </h1>
-            <p className="font-mono text-sm text-foreground/60">
-              Комната: <span className="text-primary">{roomId}</span>
+            <p className="font-mono text-sm text-amber-700/80">
+              Уютная комната: <span className="text-amber-900 font-medium">{roomId}</span>
             </p>
-            <p className="font-mono text-xs text-foreground/60 mt-1">
-              Роль: {role === "host" ? "Организатор" : "Участник"}
+            <p className="font-mono text-xs text-amber-600/70 mt-1">
+              {role === "host" ? "🏡 Хозяин встречи" : "☕ Гость"}
             </p>
           </div>
 
           <div className="space-y-4 mb-6">
             <div>
-              <Label className="font-mono text-xs mb-2">Ваше имя</Label>
+              <Label className="font-mono text-xs mb-2 text-amber-800 flex items-center gap-2">
+                <Icon name="User" size={12} className="text-amber-600" />
+                Как к вам обращаться?
+              </Label>
               <Input
-                placeholder="Иван Иванов"
+                placeholder="Анна, Иван, Мария..."
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleJoin()}
+                className="border-amber-200 focus:border-amber-400 bg-white/50"
               />
             </div>
 
-            <div className="bg-background/50 border border-border rounded-lg p-4">
-              <h3 className="font-mono text-xs font-medium mb-3 uppercase text-foreground/80">
-                Что вас ждёт
+            <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl p-5 shadow-sm">
+              <h3 className="font-mono text-xs font-medium mb-4 uppercase text-amber-800 flex items-center gap-2">
+                <Icon name="Coffee" size={14} className="text-amber-600" />
+                Домашний комфорт
               </h3>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 font-mono text-xs text-foreground/60">
+              <ul className="space-y-3">
+                <li className="flex items-start gap-2 font-mono text-xs text-amber-700/80">
                   <Icon
-                    name="Check"
-                    className="text-primary mt-0.5 flex-shrink-0"
+                    name="Heart"
+                    className="text-amber-500 mt-0.5 flex-shrink-0"
                     size={14}
                   />
-                  <span>HD видео и аудио</span>
+                  <span>Тёплая атмосфера встречи</span>
                 </li>
-                <li className="flex items-start gap-2 font-mono text-xs text-foreground/60">
+                <li className="flex items-start gap-2 font-mono text-xs text-amber-700/80">
                   <Icon
-                    name="Check"
-                    className="text-primary mt-0.5 flex-shrink-0"
+                    name="Volume2"
+                    className="text-amber-500 mt-0.5 flex-shrink-0"
                     size={14}
                   />
-                  <span>Демонстрация экрана</span>
+                  <span>Качественный звук без шума</span>
                 </li>
-                <li className="flex items-start gap-2 font-mono text-xs text-foreground/60">
+                <li className="flex items-start gap-2 font-mono text-xs text-amber-700/80">
                   <Icon
-                    name="Check"
-                    className="text-primary mt-0.5 flex-shrink-0"
+                    name="Video"
+                    className="text-amber-500 mt-0.5 flex-shrink-0"
                     size={14}
                   />
-                  <span>Автоматическая запись</span>
+                  <span>Камера как из гостиной</span>
                 </li>
-                <li className="flex items-start gap-2 font-mono text-xs text-foreground/60">
+                <li className="flex items-start gap-2 font-mono text-xs text-amber-700/80">
                   <Icon
-                    name="Check"
-                    className="text-primary mt-0.5 flex-shrink-0"
+                    name="MessageCircle"
+                    className="text-amber-500 mt-0.5 flex-shrink-0"
                     size={14}
                   />
-                  <span>Чат и реакции</span>
+                  <span>Душевные разговоры</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <Button className="w-full" size="lg" onClick={handleJoin}>
-            <Icon name="Video" size={16} className="mr-2" />
-            Войти в комнату
+          <Button 
+            className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md" 
+            size="lg" 
+            onClick={handleJoin}
+          >
+            <Icon name="Home" size={16} className="mr-2" />
+            Зайти в гости
           </Button>
 
           <Button
-            className="w-full mt-3"
+            className="w-full mt-3 border-amber-300 text-amber-700 hover:bg-amber-50"
             variant="outline"
             onClick={() => navigate("/")}
           >
-            Отмена
+            Может, потом
           </Button>
         </div>
       </div>
@@ -147,7 +164,7 @@ export default function Conference() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       <div className="flex-1 p-4">
         <VideoConferenceRoom
           roomName={roomId}
@@ -157,19 +174,28 @@ export default function Conference() {
         />
       </div>
 
-      <div className="border-t border-border bg-secondary/30 p-4">
+      <div className="border-t border-amber-200/50 bg-white/60 backdrop-blur-sm p-4 shadow-lg">
         <div className="container flex items-center justify-between">
-          <div>
-            <p className="font-mono text-xs text-foreground/60">
-              Комната: <span className="text-primary">{roomId}</span>
-            </p>
-            <p className="font-mono text-xs text-foreground/60">
-              Участник: <span className="text-foreground">{userName}</span>
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+              <Icon name="Home" className="text-amber-600" size={20} />
+            </div>
+            <div>
+              <p className="font-mono text-xs text-amber-700/80">
+                🏡 Комната: <span className="text-amber-900 font-medium">{roomId}</span>
+              </p>
+              <p className="font-mono text-xs text-amber-600/70">
+                ☕ {userName}
+              </p>
+            </div>
           </div>
-          <Button variant="destructive" onClick={handleLeave}>
-            <Icon name="PhoneOff" size={16} className="mr-2" />
-            Покинуть
+          <Button 
+            variant="destructive" 
+            onClick={handleLeave}
+            className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
+          >
+            <Icon name="LogOut" size={16} className="mr-2" />
+            Попрощаться
           </Button>
         </div>
       </div>

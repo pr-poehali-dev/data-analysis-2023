@@ -27,72 +27,78 @@ export function QuickStartDemo() {
       <div className="fixed bottom-6 left-6 z-40">
         <Button
           size="lg"
-          className="shadow-lg"
+          className="shadow-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-0"
           onClick={() => setIsOpen(true)}
         >
-          <Icon name="Zap" size={18} className="mr-2" />
-          Демо-комната
+          <Icon name="Home" size={18} className="mr-2" />
+          Зайти в гости
         </Button>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
+        <DialogContent className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
           <DialogHeader>
-            <DialogTitle className="font-sentient text-2xl">
-              Быстрый запуск демо-комнаты
+            <DialogTitle className="font-sentient text-2xl text-amber-900 flex items-center gap-2">
+              <Icon name="Coffee" className="text-amber-600" size={28} />
+              Заходите на чай!
             </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
-            <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
-              <p className="font-mono text-xs text-foreground/80">
-                Создайте тестовую комнату прямо сейчас — без регистрации и бронирования. 
-                Попробуйте все возможности платформы!
+            <div className="bg-white/60 backdrop-blur-sm border border-amber-200/50 rounded-xl p-4">
+              <p className="font-mono text-xs text-amber-800 leading-relaxed">
+                Устраивайтесь поудобнее! Создайте уютную комнату прямо сейчас — 
+                без регистрации. Как дома, только онлайн ☕
               </p>
             </div>
 
             <div>
-              <Label className="font-mono text-xs mb-2">Ваше имя</Label>
+              <Label className="font-mono text-xs mb-2 text-amber-800 flex items-center gap-2">
+                <Icon name="User" size={12} className="text-amber-600" />
+                Как вас представить?
+              </Label>
               <Input
-                placeholder="Иван Иванов"
+                placeholder="Ваше имя..."
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleJoinDemo()}
+                className="border-amber-200 focus:border-amber-400 bg-white/70"
               />
             </div>
 
-            <div className="bg-secondary/30 rounded-lg p-4">
-              <h4 className="font-mono text-xs font-medium mb-3 uppercase">
-                В демо-комнате:
+            <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl p-4">
+              <h4 className="font-mono text-xs font-medium mb-3 uppercase text-amber-800 flex items-center gap-2">
+                <Icon name="Sparkles" size={14} className="text-amber-600" />
+                Что внутри:
               </h4>
               <ul className="space-y-2">
-                <li className="flex items-center gap-2 font-mono text-xs text-foreground/60">
-                  <Icon name="Check" className="text-primary" size={14} />
-                  HD видео и аудио связь
+                <li className="flex items-center gap-2 font-mono text-xs text-amber-700/80">
+                  <Icon name="Heart" className="text-amber-500" size={14} />
+                  Тёплая домашняя атмосфера
                 </li>
-                <li className="flex items-center gap-2 font-mono text-xs text-foreground/60">
-                  <Icon name="Check" className="text-primary" size={14} />
-                  Демонстрация экрана
+                <li className="flex items-center gap-2 font-mono text-xs text-amber-700/80">
+                  <Icon name="Video" className="text-amber-500" size={14} />
+                  Видео и аудио как вживую
                 </li>
-                <li className="flex items-center gap-2 font-mono text-xs text-foreground/60">
-                  <Icon name="Check" className="text-primary" size={14} />
-                  Чат и реакции
+                <li className="flex items-center gap-2 font-mono text-xs text-amber-700/80">
+                  <Icon name="Monitor" className="text-amber-500" size={14} />
+                  Можно показать экран
                 </li>
-                <li className="flex items-center gap-2 font-mono text-xs text-foreground/60">
-                  <Icon name="Check" className="text-primary" size={14} />
-                  Запись конференции
+                <li className="flex items-center gap-2 font-mono text-xs text-amber-700/80">
+                  <Icon name="MessageCircle" className="text-amber-500" size={14} />
+                  Душевный чат
                 </li>
               </ul>
             </div>
 
             <Button
-              className="w-full"
+              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md"
               size="lg"
               onClick={handleJoinDemo}
               disabled={!userName.trim()}
             >
-              <Icon name="Video" size={16} className="mr-2" />
-              Запустить демо
+              <Icon name="Home" size={16} className="mr-2" />
+              Войти в уютную комнату
             </Button>
           </div>
         </DialogContent>
