@@ -9,7 +9,7 @@ export function Footer() {
       { label: "Комнаты", href: "#rooms" },
       { label: "Дизайны", href: "#designs" },
       { label: "Тарифы", href: "#pricing" },
-      { label: "Документация", href: "#docs" },
+      { label: "Как это работает", href: "/how-it-works" },
     ],
     company: [
       { label: "О нас", href: "#about" },

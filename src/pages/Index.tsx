@@ -6,6 +6,7 @@ import { StatsSection } from "@/components/StatsSection";
 import { PricingSection } from "@/components/PricingSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { LiveStatsWidget } from "@/components/LiveStatsWidget";
 
 export default function Index() {
   return (
@@ -18,6 +19,7 @@ export default function Index() {
       <PricingSection />
       <ContactSection />
       <Footer />
+      <LiveStatsWidget />
     </>
   );
 }

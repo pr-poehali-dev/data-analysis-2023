@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Icon from "@/components/ui/icon";
+import { videoConferenceService } from "@/services/videoConferenceService";
+import { toast } from "sonner";
 import {
   Select,
   SelectContent,
@@ -15,6 +17,67 @@ import {
 
 export default function BookRoom() {
   const [selectedDesign, setSelectedDesign] = useState("");
+  const [conferenceData, setConferenceData] = useState({
+    name: "",
+    company: "",
+    date: "",
+    time: "",
+    participants: "",
+    email: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleInputChange = (field: string, value: string) => {
+    setConferenceData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!selectedDesign) {
+      toast.error("Выберите дизайн комнаты");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const scheduledDate = new Date(`${conferenceData.date}T${conferenceData.time}`);
+      
+      const credentials = await videoConferenceService.createRoom({
+        name: conferenceData.name,
+        design: selectedDesign,
+        maxParticipants: parseInt(conferenceData.participants) || 20,
+        scheduledDate,
+        duration: 60, // 1 час по умолчанию
+        hostEmail: conferenceData.email,
+        companyName: conferenceData.company,
+      });
+
+      toast.success("Комната успешно забронирована!");
+      
+      // Показываем ссылки
+      toast.info(
+        `Ссылка для организатора: ${credentials.hostUrl}`,
+        { duration: 10000 }
+      );
+      
+      // Очищаем форму
+      setConferenceData({
+        name: "",
+        company: "",
+        date: "",
+        time: "",
+        participants: "",
+        email: "",
+      });
+      setSelectedDesign("");
+    } catch (error) {
+      toast.error("Ошибка при создании комнаты. Попробуйте позже.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const designs = [
     { id: "minimal", name: "Минималистичный" },
@@ -51,29 +114,48 @@ export default function BookRoom() {
                   Данные конференции
                 </h2>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <Label className="font-mono text-xs mb-2">
                       Название конференции
                     </Label>
-                    <Input placeholder="Еженедельная планерка" />
+                    <Input 
+                      placeholder="Еженедельная планерка" 
+                      value={conferenceData.name}
+                      onChange={(e) => handleInputChange("name", e.target.value)}
+                      required
+                    />
                   </div>
 
                   <div>
                     <Label className="font-mono text-xs mb-2">
                       Компания/Организация
                     </Label>
-                    <Input placeholder="ООО «Компания»" />
+                    <Input 
+                      placeholder="ООО «Компания»" 
+                      value={conferenceData.company}
+                      onChange={(e) => handleInputChange("company", e.target.value)}
+                    />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="font-mono text-xs mb-2">Дата</Label>
-                      <Input type="date" />
+                      <Input 
+                        type="date" 
+                        value={conferenceData.date}
+                        onChange={(e) => handleInputChange("date", e.target.value)}
+                        required
+                      />
                     </div>
                     <div>
                       <Label className="font-mono text-xs mb-2">Время</Label>
-                      <Input type="time" />
+                      <Input 
+                        type="time" 
+                        value={conferenceData.time}
+                        onChange={(e) => handleInputChange("time", e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -81,7 +163,15 @@ export default function BookRoom() {
                     <Label className="font-mono text-xs mb-2">
                       Количество участников
                     </Label>
-                    <Input type="number" placeholder="20" min="1" max="100" />
+                    <Input 
+                      type="number" 
+                      placeholder="20" 
+                      min="1" 
+                      max="100"
+                      value={conferenceData.participants}
+                      onChange={(e) => handleInputChange("participants", e.target.value)}
+                      required
+                    />
                   </div>
 
                   <div>
@@ -91,6 +181,7 @@ export default function BookRoom() {
                     <Select
                       value={selectedDesign}
                       onValueChange={setSelectedDesign}
+                      required
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Выберите дизайн" />
@@ -109,14 +200,25 @@ export default function BookRoom() {
                     <Label className="font-mono text-xs mb-2">
                       Email для уведомлений
                     </Label>
-                    <Input type="email" placeholder="your@email.com" />
+                    <Input 
+                      type="email" 
+                      placeholder="your@email.com"
+                      value={conferenceData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      required
+                    />
                   </div>
-                </div>
-              </div>
 
-              <Button className="w-full" size="lg">
-                Забронировать комнату
-              </Button>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    size="lg"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Загрузка..." : "Забронировать комнату"}
+                  </Button>
+                </form>
+              </div>
             </div>
 
             <div>

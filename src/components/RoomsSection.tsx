@@ -1,8 +1,15 @@
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { Room3DPreview } from "./Room3DPreview";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+
+type RoomDesign = "minimal" | "corporate" | "creative";
 
 export function RoomsSection() {
   const navigate = useNavigate();
+  const [previewRoom, setPreviewRoom] = useState<RoomDesign | null>(null);
+  
   const rooms = [
     {
       id: 1,
@@ -10,6 +17,7 @@ export function RoomsSection() {
       description: "Чистый и профессиональный дизайн для деловых встреч",
       capacity: "До 50 участников",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+      design: "minimal" as const,
     },
     {
       id: 2,
@@ -17,6 +25,7 @@ export function RoomsSection() {
       description: "Яркое пространство для креативных сессий и брейнштормов",
       capacity: "До 30 участников",
       image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
+      design: "creative" as const,
     },
     {
       id: 3,
@@ -24,6 +33,7 @@ export function RoomsSection() {
       description: "Элитный дизайн для переговоров высокого уровня",
       capacity: "До 20 участников",
       image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
+      design: "corporate" as const,
     },
   ];
 
@@ -44,12 +54,18 @@ export function RoomsSection() {
             key={room.id}
             className="group relative overflow-hidden bg-secondary/50 border border-border rounded-lg transition-all duration-300 hover:border-primary/50"
           >
-            <div className="aspect-video overflow-hidden">
+            <div 
+              className="aspect-video overflow-hidden cursor-pointer"
+              onClick={() => setPreviewRoom(room.design)}
+            >
               <img
                 src={room.image}
                 alt={room.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="font-mono text-sm text-white">3D Превью</span>
+              </div>
             </div>
             <div className="p-6">
               <h3 className="text-xl font-sentient mb-2">{room.name}</h3>
@@ -72,6 +88,17 @@ export function RoomsSection() {
           </div>
         ))}
       </div>
+
+      <Dialog open={!!previewRoom} onOpenChange={() => setPreviewRoom(null)}>
+        <DialogContent className="max-w-4xl h-[600px]">
+          <DialogHeader>
+            <DialogTitle className="font-sentient text-2xl">3D Превью комнаты</DialogTitle>
+          </DialogHeader>
+          <div className="h-full">
+            {previewRoom && <Room3DPreview design={previewRoom} />}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
