@@ -160,7 +160,7 @@ export default function Conference() {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleJoin()}
-                className="border-amber-200 focus:border-amber-400 bg-white/50"
+                className="border-amber-300 focus:border-amber-500 bg-white shadow-sm text-amber-900 placeholder:text-amber-400 font-medium text-base px-4 py-3"
               />
             </div>
 
