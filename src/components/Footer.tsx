@@ -9,6 +9,7 @@ export function Footer() {
       { label: "Комнаты", href: "#rooms" },
       { label: "Дизайны", href: "#designs" },
       { label: "Тарифы", href: "#pricing" },
+      { label: "Качество видео", href: "/video-quality" },
       { label: "Как это работает", href: "/how-it-works" },
     ],
     company: [

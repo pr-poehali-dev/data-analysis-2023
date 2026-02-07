@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 type JitsiAPI = {
   dispose: () => void;
   addEventListener: (event: string, handler: () => void) => void;
+  executeCommand: (command: string, ...args: unknown[]) => void;
 };
 
 declare global {
@@ -62,13 +63,49 @@ export function VideoConferenceRoom({
           prejoinPageEnabled: false,
           disableDeepLinking: true,
           defaultLanguage: "ru",
-          // Домашняя уютная атмосфера
           subject: "Уютная встреча",
           hideConferenceSubject: false,
           enableNoAudioDetection: true,
           enableNoisyMicDetection: true,
-          // Виртуальный фон по умолчанию
-          backgroundAlpha: 0.5,
+          
+          // МАКСИМАЛЬНОЕ КАЧЕСТВО ВИДЕО
+          resolution: 1080,
+          constraints: {
+            video: {
+              height: { ideal: 1080, max: 1080, min: 720 },
+              width: { ideal: 1920, max: 1920, min: 1280 },
+              frameRate: { ideal: 30, max: 30 }
+            }
+          },
+          videoQuality: {
+            maxBitratesVideo: {
+              H264: {
+                low: 200000,
+                standard: 500000,
+                high: 1500000
+              },
+              VP8: {
+                low: 200000,
+                standard: 500000, 
+                high: 1500000
+              },
+              VP9: {
+                low: 100000,
+                standard: 300000,
+                high: 1200000
+              }
+            }
+          },
+          // Улучшенная обработка аудио
+          enableNoiseSuppression: true,
+          disableAP: false,
+          disableAEC: false,
+          disableNS: false,
+          disableAGC: false,
+          audioQuality: {
+            stereo: true,
+            opusMaxAverageBitrate: 510000
+          }
         },
         interfaceConfigOverwrite: {
           BRAND_WATERMARK_LINK: "",
@@ -115,6 +152,15 @@ export function VideoConferenceRoom({
       // События
       apiRef.current.addEventListener("videoConferenceJoined", () => {
         console.log("Joined conference:", roomName);
+        
+        // Устанавливаем кастомный виртуальный фон высокого качества
+        const backgroundUrl = getBackgroundImageUrl(design);
+        if (backgroundUrl && apiRef.current) {
+          // Команда для установки виртуального фона
+          setTimeout(() => {
+            apiRef.current?.executeCommand('setVideoBackgroundImage', backgroundUrl);
+          }, 2000);
+        }
       });
 
       apiRef.current.addEventListener("videoConferenceLeft", () => {
@@ -147,6 +193,20 @@ export function VideoConferenceRoom({
         return "#fde68a"; // солнечный жёлтый
       default:
         return "#fef3c7";
+    }
+  };
+
+  const getBackgroundImageUrl = (design: string) => {
+    // Высококачественные 4K фоны уютных комнат из Unsplash
+    switch (design) {
+      case "minimal":
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&q=95"; // Минималистичная гостиная
+      case "corporate":
+        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=3840&q=95"; // Премиум офис
+      case "creative":
+        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=3840&q=95"; // Творческая студия
+      default:
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&q=95";
     }
   };
 

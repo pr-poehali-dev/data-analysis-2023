@@ -58,6 +58,32 @@ export default function Conference() {
     );
   }
 
+  const getRoomPreviewImage = (design: string) => {
+    switch (design) {
+      case "minimal":
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85";
+      case "corporate":
+        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85";
+      case "creative":
+        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=85";
+      default:
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85";
+    }
+  };
+
+  const getRoomDesignName = (design: string) => {
+    switch (design) {
+      case "minimal":
+        return "Минималистичная гостиная";
+      case "corporate":
+        return "Премиум офис";
+      case "creative":
+        return "Творческая студия";
+      default:
+        return "Уютная комната";
+    }
+  };
+
   if (!joined) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-4">
@@ -69,11 +95,31 @@ export default function Conference() {
           }}
         />
         
-        <div className="max-w-md w-full bg-white/80 backdrop-blur-sm border border-amber-200 rounded-2xl p-8 shadow-xl relative z-10">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
-              <Icon name="Home" className="text-amber-600" size={36} />
+        <div className="max-w-2xl w-full bg-white/80 backdrop-blur-sm border border-amber-200 rounded-2xl overflow-hidden shadow-xl relative z-10">
+          {/* Превью дизайна комнаты */}
+          <div className="relative h-64 overflow-hidden">
+            <img 
+              src={getRoomPreviewImage(design)} 
+              alt={getRoomDesignName(design)}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-amber-900/80 via-amber-900/40 to-transparent" />
+            <div className="absolute bottom-4 left-6 right-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Icon name="Sparkles" className="text-amber-200" size={20} />
+                <span className="font-mono text-xs text-amber-200 uppercase">Дизайн комнаты</span>
+              </div>
+              <h2 className="text-2xl font-sentient text-white mb-1">
+                {getRoomDesignName(design)}
+              </h2>
+              <p className="font-mono text-xs text-amber-100">
+                Качество видео: Full HD 1080p • 30fps
+              </p>
             </div>
+          </div>
+
+          <div className="p-8">
+          <div className="text-center mb-6">
             <h1 className="text-2xl font-sentient mb-2 text-amber-900">
               Добро пожаловать домой
             </h1>
@@ -83,6 +129,24 @@ export default function Conference() {
             <p className="font-mono text-xs text-amber-600/70 mt-1">
               {role === "host" ? "🏡 Хозяин встречи" : "☕ Гость"}
             </p>
+            
+            {/* Пояснение про виртуальный фон */}
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <p className="font-mono text-xs text-blue-800 mb-1">
+                💡 <strong>Как увидеть дизайн комнаты:</strong>
+              </p>
+              <p className="font-mono text-xs text-blue-700">
+                После входа откройте меню Jitsi → "Виртуальные фоны" → 
+                выберите загруженный фон. Ваши собеседники увидят вас на фоне уютной комнаты!
+              </p>
+              <a 
+                href="/video-quality" 
+                target="_blank"
+                className="inline-flex items-center gap-1 font-mono text-xs text-blue-600 hover:text-blue-800 mt-2 underline"
+              >
+                Подробнее о качестве <Icon name="ExternalLink" size={12} />
+              </a>
+            </div>
           </div>
 
           <div className="space-y-4 mb-6">
@@ -158,6 +222,7 @@ export default function Conference() {
           >
             Может, потом
           </Button>
+          </div>
         </div>
       </div>
     );
