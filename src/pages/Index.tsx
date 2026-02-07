@@ -7,6 +7,7 @@ import { PricingSection } from "@/components/PricingSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { LiveStatsWidget } from "@/components/LiveStatsWidget";
+import { QuickStartDemo } from "@/components/QuickStartDemo";
 
 export default function Index() {
   return (
@@ -20,6 +21,7 @@ export default function Index() {
       <ContactSection />
       <Footer />
       <LiveStatsWidget />
+      <QuickStartDemo />
     </>
   );
 }

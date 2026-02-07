@@ -35,6 +35,30 @@ export function RoomsSection() {
       image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
       design: "corporate" as const,
     },
+    {
+      id: 4,
+      name: "Корпоративный зал",
+      description: "Просторная комната для больших совещаний",
+      capacity: "До 100 участников",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      design: "corporate" as const,
+    },
+    {
+      id: 5,
+      name: "Уютный лофт",
+      description: "Домашняя атмосфера для неформальных встреч",
+      capacity: "До 15 участников",
+      image: "https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=800&q=80",
+      design: "minimal" as const,
+    },
+    {
+      id: 6,
+      name: "Технологичный хаб",
+      description: "Футуристичный дизайн для IT-команд",
+      capacity: "До 40 участников",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      design: "creative" as const,
+    },
   ];
 
   return (

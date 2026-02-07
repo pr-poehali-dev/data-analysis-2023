@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +27,12 @@ export default function BookRoom() {
     email: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [roomCredentials, setRoomCredentials] = useState<{
+    roomId: string;
+    hostUrl: string;
+    participantUrl: string;
+  } | null>(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (field: string, value: string) => {
     setConferenceData(prev => ({ ...prev, [field]: value }));
@@ -56,22 +63,8 @@ export default function BookRoom() {
 
       toast.success("Комната успешно забронирована!");
       
-      // Показываем ссылки
-      toast.info(
-        `Ссылка для организатора: ${credentials.hostUrl}`,
-        { duration: 10000 }
-      );
-      
-      // Очищаем форму
-      setConferenceData({
-        name: "",
-        company: "",
-        date: "",
-        time: "",
-        participants: "",
-        email: "",
-      });
-      setSelectedDesign("");
+      // Сохраняем данные комнаты
+      setRoomCredentials(credentials);
     } catch (error) {
       toast.error("Ошибка при создании комнаты. Попробуйте позже.");
     } finally {
@@ -107,7 +100,98 @@ export default function BookRoom() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          {roomCredentials ? (
+            <div className="bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/30 rounded-lg p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon name="CheckCircle2" className="text-primary" size={24} />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-sentient mb-2">
+                    Комната создана!
+                  </h2>
+                  <p className="font-mono text-sm text-foreground/60">
+                    Ваша виртуальная комната готова к использованию
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div className="bg-background/50 border border-border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-mono text-xs text-foreground/60 uppercase">
+                      Ссылка для организатора
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.writeText(roomCredentials.hostUrl);
+                        toast.success("Ссылка скопирована");
+                      }}
+                    >
+                      <Icon name="Copy" size={14} className="mr-1" />
+                      Копировать
+                    </Button>
+                  </div>
+                  <p className="font-mono text-xs text-foreground break-all">
+                    {roomCredentials.hostUrl}
+                  </p>
+                </div>
+
+                <div className="bg-background/50 border border-border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-mono text-xs text-foreground/60 uppercase">
+                      Ссылка для участников
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        navigator.clipboard.writeText(roomCredentials.participantUrl);
+                        toast.success("Ссылка скопирована");
+                      }}
+                    >
+                      <Icon name="Copy" size={14} className="mr-1" />
+                      Копировать
+                    </Button>
+                  </div>
+                  <p className="font-mono text-xs text-foreground break-all">
+                    {roomCredentials.participantUrl}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  className="flex-1"
+                  onClick={() => navigate(roomCredentials.hostUrl.replace(window.location.origin, ""))}
+                >
+                  <Icon name="Video" size={16} className="mr-2" />
+                  Войти как организатор
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    setRoomCredentials(null);
+                    setConferenceData({
+                      name: "",
+                      company: "",
+                      date: "",
+                      time: "",
+                      participants: "",
+                      email: "",
+                    });
+                    setSelectedDesign("");
+                  }}
+                >
+                  Создать ещё
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div className="bg-secondary/30 border border-border rounded-lg p-6">
                 <h2 className="text-2xl font-sentient mb-6">
@@ -320,6 +404,7 @@ export default function BookRoom() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
       <Footer />

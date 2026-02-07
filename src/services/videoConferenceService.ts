@@ -143,8 +143,8 @@ class VideoConferenceService {
     
     return {
       roomId,
-      hostUrl: `${baseUrl}/conference/${roomId}?role=host`,
-      participantUrl: `${baseUrl}/conference/${roomId}?role=participant`,
+      hostUrl: `${baseUrl}/conference/${roomId}?role=host&design=${request.design}`,
+      participantUrl: `${baseUrl}/conference/${roomId}?role=participant&design=${request.design}`,
       password: Math.random().toString(36).substring(2, 10),
       recordingEnabled: true,
     };
