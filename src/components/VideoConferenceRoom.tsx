@@ -37,7 +37,7 @@ export function VideoConferenceRoom({
         }
 
         const script = document.createElement("script");
-        script.src = "https://8x8.vc/vpaas-magic-cookie-1a2b3c4d/external_api.js";
+        script.src = "https://meet.jit.si/external_api.js";
         script.async = true;
         script.onload = () => resolve(true);
         document.body.appendChild(script);
@@ -102,7 +102,7 @@ export function VideoConferenceRoom({
       };
 
       apiRef.current = new window.JitsiMeetExternalAPI(
-        "8x8.vc",
+        "meet.jit.si",
         options
       );
 
