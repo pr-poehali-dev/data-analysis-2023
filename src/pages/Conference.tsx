@@ -134,21 +134,22 @@ export default function Conference() {
             </p>
             
             {/* Пояснение про виртуальный фон */}
-            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <p className="font-mono text-xs text-blue-800 mb-1">
-                💡 <strong>Как увидеть дизайн комнаты:</strong>
+            <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 space-y-2">
+              <p className="font-mono text-xs text-blue-900 font-semibold mb-2">
+                🎯 <strong>Для четкого фона без размытия:</strong>
               </p>
-              <p className="font-mono text-xs text-blue-700">
-                После входа откройте меню Jitsi → "Виртуальные фоны" → 
-                выберите загруженный фон. Ваши собеседники увидят вас на фоне уютной комнаты!
-              </p>
-              <a 
-                href="/video-quality" 
-                target="_blank"
-                className="inline-flex items-center gap-1 font-mono text-xs text-blue-600 hover:text-blue-800 mt-2 underline"
-              >
-                Подробнее о качестве <Icon name="ExternalLink" size={12} />
-              </a>
+              <ol className="font-mono text-xs text-blue-800 space-y-1.5 list-decimal list-inside">
+                <li>После входа нажмите <strong>"⋯ Еще"</strong> → <strong>"Виртуальные фоны"</strong></li>
+                <li>Выберите опцию <strong>"Слегка размыть фон"</strong> (не "Сильно"!)</li>
+                <li>Загрузите изображение или выберите предложенный дизайн</li>
+                <li><strong>Хорошее освещение</strong> = четкие края без размытия</li>
+              </ol>
+              <div className="bg-amber-100 border border-amber-300 rounded px-3 py-2 mt-3">
+                <p className="font-mono text-xs text-amber-900">
+                  💡 <strong>Совет:</strong> Встаньте ближе к источнику света (окно/лампа), 
+                  тогда камера лучше отделит вас от фона — размытие исчезнет!
+                </p>
+              </div>
             </div>
           </div>
 

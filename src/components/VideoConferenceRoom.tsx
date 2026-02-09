@@ -107,6 +107,13 @@ export function VideoConferenceRoom({
           audioQuality: {
             stereo: true,
             opusMaxAverageBitrate: 510000
+          },
+          
+          // КРИТИЧНО: Настройки виртуального фона для четких краев
+          backgroundAlpha: 1.0,
+          virtualBackgroundBlur: 0,
+          e2eping: {
+            enabled: false
           }
         },
         interfaceConfigOverwrite: {
