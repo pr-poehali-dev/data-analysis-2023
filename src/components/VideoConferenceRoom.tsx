@@ -116,6 +116,13 @@ export function VideoConferenceRoom({
           // КРИТИЧНО: Настройки виртуального фона для четких краев
           backgroundAlpha: 1.0,
           virtualBackgroundBlur: 0,
+          videoBackgroundBlur: 0,
+          backgroundEffectOptions: {
+            backgroundType: 'image',
+            enabled: true,
+            blurValue: 0,
+            selectedThumbnail: getBackgroundImageUrl(design)
+          },
           e2eping: {
             enabled: false
           }
@@ -165,7 +172,23 @@ export function VideoConferenceRoom({
       // События
       apiRef.current.addEventListener("videoConferenceJoined", () => {
         console.log("Joined conference:", roomName);
-        setBackgroundApplied(false);
+        
+        // Автоматически применяем фон высокого качества при входе
+        const backgroundUrl = getBackgroundImageUrl(design);
+        if (backgroundUrl && apiRef.current) {
+          setTimeout(() => {
+            try {
+              apiRef.current?.executeCommand('setVideoBackgroundImage', backgroundUrl);
+              setBackgroundApplied(true);
+              toast.success("Фон установлен автоматически!", {
+                description: "Виртуальный фон 4K применен. Используйте кнопку \"Четкость краёв\" если нужно."
+              });
+            } catch (error) {
+              console.error("Failed to set background:", error);
+              setBackgroundApplied(false);
+            }
+          }, 3000); // Ждем 3 секунды после входа
+        }
       });
 
       apiRef.current.addEventListener("videoConferenceLeft", () => {
