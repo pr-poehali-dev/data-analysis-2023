@@ -80,21 +80,23 @@ export function VideoConferenceRoom({
           videoQuality: {
             maxBitratesVideo: {
               H264: {
-                low: 200000,
-                standard: 500000,
-                high: 1500000
+                low: 500000,
+                standard: 1500000,
+                high: 3500000
               },
               VP8: {
-                low: 200000,
-                standard: 500000, 
-                high: 1500000
+                low: 500000,
+                standard: 1500000, 
+                high: 3500000
               },
               VP9: {
-                low: 100000,
-                standard: 300000,
-                high: 1200000
+                low: 300000,
+                standard: 1000000,
+                high: 2500000
               }
-            }
+            },
+            preferredCodec: 'H264',
+            disableSimulcast: false
           },
           // Улучшенная обработка аудио
           enableNoiseSuppression: true,
@@ -197,16 +199,16 @@ export function VideoConferenceRoom({
   };
 
   const getBackgroundImageUrl = (design: string) => {
-    // Высококачественные 4K фоны уютных комнат из Unsplash
+    // Высококачественные 4K фоны уютных комнат из Unsplash с максимальным качеством
     switch (design) {
       case "minimal":
-        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&q=95"; // Минималистичная гостиная
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&h=2160&q=100&fit=crop&auto=format&fm=jpg&dpr=2"; // Минималистичная гостиная
       case "corporate":
-        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=3840&q=95"; // Премиум офис
+        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=3840&h=2160&q=100&fit=crop&auto=format&fm=jpg&dpr=2"; // Премиум офис
       case "creative":
-        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=3840&q=95"; // Творческая студия
+        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=3840&h=2160&q=100&fit=crop&auto=format&fm=jpg&dpr=2"; // Творческая студия
       default:
-        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&q=95";
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=3840&h=2160&q=100&fit=crop&auto=format&fm=jpg&dpr=2";
     }
   };
 

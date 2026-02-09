@@ -61,13 +61,13 @@ export default function Conference() {
   const getRoomPreviewImage = (design: string) => {
     switch (design) {
       case "minimal":
-        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85";
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=1080&q=95&fit=crop&auto=format";
       case "corporate":
-        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85";
+        return "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&h=1080&q=95&fit=crop&auto=format";
       case "creative":
-        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=85";
+        return "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&h=1080&q=95&fit=crop&auto=format";
       default:
-        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85";
+        return "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=1080&q=95&fit=crop&auto=format";
     }
   };
 
@@ -102,8 +102,11 @@ export default function Conference() {
               src={getRoomPreviewImage(design)} 
               alt={getRoomDesignName(design)}
               className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              style={{ imageRendering: 'crisp-edges' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-amber-900/80 via-amber-900/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-amber-900/70 via-amber-900/30 to-transparent" />
             <div className="absolute bottom-4 left-6 right-6">
               <div className="flex items-center gap-2 mb-2">
                 <Icon name="Sparkles" className="text-amber-200" size={20} />
