@@ -1,4 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/ui/icon";
+import { toast } from "sonner";
 
 type JitsiAPI = {
   dispose: () => void;
@@ -27,6 +30,7 @@ export function VideoConferenceRoom({
 }: VideoConferenceRoomProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<JitsiAPI | null>(null);
+  const [backgroundApplied, setBackgroundApplied] = useState(false);
 
   useEffect(() => {
     // Загружаем Jitsi API скрипт
@@ -161,15 +165,7 @@ export function VideoConferenceRoom({
       // События
       apiRef.current.addEventListener("videoConferenceJoined", () => {
         console.log("Joined conference:", roomName);
-        
-        // Устанавливаем кастомный виртуальный фон высокого качества
-        const backgroundUrl = getBackgroundImageUrl(design);
-        if (backgroundUrl && apiRef.current) {
-          // Команда для установки виртуального фона
-          setTimeout(() => {
-            apiRef.current?.executeCommand('setVideoBackgroundImage', backgroundUrl);
-          }, 2000);
-        }
+        setBackgroundApplied(false);
       });
 
       apiRef.current.addEventListener("videoConferenceLeft", () => {
@@ -219,6 +215,36 @@ export function VideoConferenceRoom({
     }
   };
 
+  const handleApplyBackground = () => {
+    const backgroundUrl = getBackgroundImageUrl(design);
+    if (backgroundUrl && apiRef.current) {
+      try {
+        apiRef.current.executeCommand('setVideoBackgroundImage', backgroundUrl);
+        setBackgroundApplied(true);
+        toast.success("Фон установлен!", {
+          description: "Виртуальный фон высокого качества применен. Для лучшего эффекта используйте хорошее освещение."
+        });
+      } catch (error) {
+        toast.error("Не удалось установить фон", {
+          description: "Попробуйте вручную через меню Jitsi → Виртуальные фоны"
+        });
+      }
+    }
+  };
+
+  const handleToggleBlur = () => {
+    if (apiRef.current) {
+      try {
+        apiRef.current.executeCommand('toggleBlur');
+        toast.success("Размытие изменено", {
+          description: "Для четких краёв используйте режим \"Слегка размыть\""
+        });
+      } catch (error) {
+        toast.error("Не удалось изменить размытие");
+      }
+    }
+  };
+
   return (
     <div className="w-full h-full min-h-[600px] relative rounded-lg overflow-hidden">
       {/* Уютный домашний фон */}
@@ -236,6 +262,29 @@ export function VideoConferenceRoom({
       <div className="absolute top-4 left-4 flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm z-10">
         <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
         <span className="font-mono text-xs text-amber-900">Уютная комната</span>
+      </div>
+
+      {/* Панель управления качеством фона */}
+      <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
+        <Button 
+          onClick={handleApplyBackground}
+          size="sm"
+          variant={backgroundApplied ? "secondary" : "default"}
+          className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg"
+        >
+          <Icon name="Image" size={16} className="mr-2" />
+          {backgroundApplied ? "Фон установлен ✓" : "Установить фон"}
+        </Button>
+        
+        <Button 
+          onClick={handleToggleBlur}
+          size="sm"
+          variant="outline"
+          className="bg-white/90 backdrop-blur-sm hover:bg-white shadow-md"
+        >
+          <Icon name="Focus" size={16} className="mr-2" />
+          Четкость краёв
+        </Button>
       </div>
       
       {/* Jitsi контейнер */}
